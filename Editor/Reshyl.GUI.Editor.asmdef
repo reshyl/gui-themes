@@ -1,7 +1,9 @@
 {
     "name": "Reshyl.GUI.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:883de9253797594458f893cee1186516"
+    ],
     "includePlatforms": [
         "Editor"
     ],
