@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 namespace Reshyl.GUI
 {
-    [CreateAssetMenu(menuName = "GUI/Button/Button Settings")]
-    public class ButtonSettings : ScriptableObject
+    [CreateAssetMenu(menuName = "GUI/Selectable/Selectable Settings")]
+    public class SelectableSettings : ScriptableObject
     {
         public Sprite sprite;
         public Selectable.Transition transition;

@@ -1,6 +1,6 @@
 {
   "name": "com.reshyl.gui-utilities",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "displayName": "GUI Utilities",
   "description": "Small GUI systems and utility scripts to help managing UI in Unity.",
   "unity": "2019.1",

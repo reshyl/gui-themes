@@ -3,9 +3,9 @@
 namespace Reshyl.GUI
 {
     [Serializable]
-    public class ButtonInfo
+    public class SelectableInfo
     {
         public string key = "Key";
-        public ButtonSettings settings;
+        public SelectableSettings settings;
     }
 }

@@ -3,8 +3,8 @@ using UnityEditor;
 
 namespace ReshylEditor.GUI
 {
-    [CustomPropertyDrawer(typeof(ButtonInfo))]
-    public class ButtonInfoDrawer : ElementInfoDrawer
+    [CustomPropertyDrawer(typeof(SelectableInfo))]
+    public class SelectableInfoDrawer : ElementInfoDrawer
     {
         protected override SerializedProperty GetValueProp(SerializedProperty parentProp)
         {

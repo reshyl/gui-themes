@@ -10,7 +10,7 @@ namespace Reshyl.GUI
         [SerializeField]
         private SpritePalette spritePalette;
         [SerializeField]
-        private ButtonPalette buttonPalette;
+        private SelectablePalette selectablePalette;
         [SerializeField]
         private TextPalette textPalette;
     }

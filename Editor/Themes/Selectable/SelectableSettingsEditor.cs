@@ -3,8 +3,8 @@ using UnityEditor;
 
 namespace ReshylEditor.GUI
 {
-    [CustomEditor(typeof(ButtonSettings))]
-    public class ButtonSettingsEditor : Editor
+    [CustomEditor(typeof(SelectableSettings))]
+    public class SelectableSettingsEditor : Editor
     {
         private SerializedProperty spriteProp;
         private SerializedProperty transitionProp;
