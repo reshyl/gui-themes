@@ -8,5 +8,7 @@ namespace Reshyl.GUI
     {
         [SerializeField]
         private ColorPalette colorPalette;
+        [SerializeField]
+        private SpritePalette spritePalette;
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,11 +26,9 @@ namespace Reshyl.GUI
                 color = info.color;
                 return true;
             }
-            else
-            {
-                color = Color.black;
-                return false;
-            }
+
+            color = Color.black;
+            return false;
         }
     }
 }
