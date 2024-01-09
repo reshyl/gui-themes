@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 namespace Reshyl.GUI
@@ -10,5 +9,9 @@ namespace Reshyl.GUI
         private ColorPalette colorPalette;
         [SerializeField]
         private SpritePalette spritePalette;
+        [SerializeField]
+        private ButtonPalette buttonPalette;
+        [SerializeField]
+        private TextPalette textPalette;
     }
 }

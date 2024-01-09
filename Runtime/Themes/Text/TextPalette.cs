@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Reshyl.GUI
 {
-    [CreateAssetMenu(menuName = "GUI/Button/Button Palette")]
-    public sealed class ButtonPalette : ScriptableObject
+    [CreateAssetMenu(menuName = "GUI/Text/Text Palette")]
+    public sealed class TextPalette : ScriptableObject
     {
         [SerializeField]
         private PaletteDefinition definition;
         [SerializeField]
-        private List<ButtonInfo> buttons;
+        private List<TextInfo> texts;
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Reshyl.GUI
 {
-    [CreateAssetMenu(menuName = "GUI/Button Settings")]
+    [CreateAssetMenu(menuName = "GUI/Button/Button Settings")]
     public class ButtonSettings : ScriptableObject
     {
         public Sprite sprite;
