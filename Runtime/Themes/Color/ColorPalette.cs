@@ -6,10 +6,8 @@ namespace Reshyl.GUI
     [CreateAssetMenu(menuName = "GUI/Color Palette")]
     public sealed class ColorPalette : ScriptableObject
     {
-        [SerializeField]
-        private PaletteDefinition definition;
-        [SerializeField]
-        private List<ColorInfo> colors;
+        public PaletteDefinition definition;
+        public List<ColorInfo> colors;
 
         /// <summary>
         /// Get the Color with the given key.
