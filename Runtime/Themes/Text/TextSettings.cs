@@ -44,6 +44,9 @@ namespace Reshyl.GUI
             maxFontSize = 72f;
 
             vertexColor = Color.white;
+
+            alignment = TextAlignmentOptions.TopLeft;
+
             wrapping = true;
         }
 

@@ -6,9 +6,21 @@ namespace Reshyl.GUI
     [CreateAssetMenu(menuName = "GUI/Text/Text Palette")]
     public sealed class TextPalette : ScriptableObject
     {
-        [SerializeField]
-        private PaletteDefinition definition;
-        [SerializeField]
-        private List<TextInfo> texts;
+        public PaletteDefinition definition;
+        public List<TextInfo> texts;
+
+        public bool GetText(string key, out TextSettings settings)
+        {
+            var info = texts.Find(t => t.key == key);
+
+            if (info != null)
+            {
+                settings = info.settings;
+                return true;
+            }
+
+            settings = null;
+            return false;
+        }
     }
 }
