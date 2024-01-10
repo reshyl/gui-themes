@@ -21,9 +21,6 @@ namespace ReshylEditor.GUI
             colorKeyProp = serializedObject.FindProperty("colorKey");
             overrideAlphaProp = serializedObject.FindProperty("overrideAlpha");
             alphaProp = serializedObject.FindProperty("alpha");
-
-            if (colorPaletteProp.objectReferenceValue != null)
-                themedGraphic.UpdateElement();
         }
 
         public override void OnInspectorGUI()
@@ -56,9 +53,8 @@ namespace ReshylEditor.GUI
             if (overrideAlphaProp.boolValue)
                 EditorGUILayout.PropertyField(alphaProp);
 
-            themedGraphic.UpdateElement();
-
             serializedObject.ApplyModifiedProperties();
+            themedGraphic.UpdateElement();
         }
     }
 }

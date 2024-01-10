@@ -6,11 +6,8 @@ namespace Reshyl.GUI
     [CreateAssetMenu(menuName = "GUI/Sprite Palette")]
     public sealed class SpritePalette : ScriptableObject
     {
-        [SerializeField]
-        private PaletteDefinition definition;
-        [SerializeField]
-        private List<SpriteInfo> sprites;
-
+        public PaletteDefinition definition;
+        public List<SpriteInfo> sprites;
 
         /// <summary>
         /// Get the Sprite with the given key.
