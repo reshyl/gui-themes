@@ -17,7 +17,7 @@ namespace Reshyl.GUI
             if (image == null)
                 image = GetComponent<Image>();
 
-            if (spritePalette.GetSprite(spriteKey, out var sprite))
+            if (spritePalette.GetElement(spriteKey, out var sprite))
                 image.sprite = sprite;
             else
                 Debug.LogWarning(spritePalette.name + " does not contain a Sprite with key " + spriteKey);

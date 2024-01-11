@@ -19,7 +19,7 @@ namespace Reshyl.GUI
             if (textMesh == null)
                 textMesh = GetComponent<TMP_Text>();
 
-            if (palette.GetText(textKey, out var settings))
+            if (palette.GetElement(textKey, out var settings))
             {
                 textMesh.font = settings.font;
                 textMesh.fontSharedMaterial = settings.fontMaterial;

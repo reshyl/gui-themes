@@ -22,7 +22,7 @@ namespace Reshyl.GUI
             if (graphic == null)
                 graphic = GetComponent<Graphic>();
 
-            if (colorPalette.GetColor(colorKey, out var color))
+            if (colorPalette.GetElement(colorKey, out var color))
             {
                 if (overrideAlpha)
                     color.a = alpha;

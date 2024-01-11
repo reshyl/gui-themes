@@ -4,12 +4,8 @@ using UnityEditor;
 namespace ReshylEditor.GUI
 {
     [CustomEditor(typeof(TextPalette))]
-    public class TextPaletteEditor : PaletteEditor
+    public class TextPaletteEditor : PaletteEditorBase
     {
-        protected override void OnEnable()
-        {
-            definitionProp = serializedObject.FindProperty("definition");
-            listProp = serializedObject.FindProperty("texts");
-        }
+        protected override string ElementsHeader => "Text Elements";
     }
 }

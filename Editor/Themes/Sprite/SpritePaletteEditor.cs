@@ -4,12 +4,8 @@ using UnityEditor;
 namespace ReshylEditor.GUI
 {
     [CustomEditor(typeof(SpritePalette))]
-    public class SpritePaletteEditor : PaletteEditor
+    public class SpritePaletteEditor : PaletteEditorBase
     {
-        protected override void OnEnable()
-        {
-            definitionProp = serializedObject.FindProperty("definition");
-            listProp = serializedObject.FindProperty("sprites");
-        }
+        protected override string ElementsHeader => "Sprites";
     }
 }

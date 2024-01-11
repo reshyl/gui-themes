@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Reshyl.GUI
@@ -5,13 +6,12 @@ namespace Reshyl.GUI
     [CreateAssetMenu(menuName = "GUI/Theme")]
     public class Theme : ScriptableObject
     {
-        [SerializeField]
-        private ColorPalette colorPalette;
-        [SerializeField]
-        private SpritePalette spritePalette;
-        [SerializeField]
-        private SelectablePalette selectablePalette;
-        [SerializeField]
-        private TextPalette textPalette;
+        public List<PaletteBase> palettes;
+
+        public T GetPalette<T>() where T : PaletteBase
+        {
+            var palette = palettes.Find(p => p.GetType() == typeof(T));
+            return (T)palette;
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace ReshylEditor.GUI
             }
 
             var palette = (ColorPalette)colorPaletteProp.objectReferenceValue;
-            var options = palette.definition.keys;
+            var options = palette.Definition.Keys;
 
             if (colorKeyProp.stringValue == string.Empty)
                 colorKeyProp.stringValue = options[0];

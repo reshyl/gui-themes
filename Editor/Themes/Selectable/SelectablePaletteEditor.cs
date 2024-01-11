@@ -4,12 +4,8 @@ using UnityEditor;
 namespace ReshylEditor.GUI
 {
     [CustomEditor(typeof(SelectablePalette))]
-    public class SelectablePaletteEditor : PaletteEditor
+    public class SelectablePaletteEditor : PaletteEditorBase
     {
-        protected override void OnEnable()
-        {
-            definitionProp = serializedObject.FindProperty("definition");
-            listProp = serializedObject.FindProperty("selectables");
-        }
+        protected override string ElementsHeader => "Selectables";
     }
 }

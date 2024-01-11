@@ -17,7 +17,7 @@ namespace Reshyl.GUI
             if (selectable == null)
                 selectable = GetComponent<Selectable>();
 
-            if (palette.GetSelectable(selectableKey, out var settings))
+            if (palette.GetElement(selectableKey, out var settings))
             {
                 selectable.image.sprite = settings.sprite;
                 selectable.transition = settings.transition;

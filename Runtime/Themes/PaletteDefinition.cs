@@ -6,6 +6,9 @@ namespace Reshyl.GUI
     [CreateAssetMenu(menuName = "GUI/Palette Definition")]
     public class PaletteDefinition : ScriptableObject
     {
-        public List<string> keys;
+        [SerializeField]
+        private List<string> keys;
+
+        public List<string> Keys => keys;
     }
 }
