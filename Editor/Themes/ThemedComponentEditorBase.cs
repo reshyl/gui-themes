@@ -1,5 +1,6 @@
 ﻿using Reshyl.GUI;
 using UnityEditor;
+using UnityEngine;
 
 namespace ReshylEditor.GUI
 {
@@ -8,7 +9,7 @@ namespace ReshylEditor.GUI
     {
         protected SerializedProperty keyProp;
         protected ThemedComponent<T> themedComponent;
-        protected GUITheme parentTheme;
+        protected GUITheme themeController;
 
         protected virtual string KeyLabel => "Key";
 
@@ -16,19 +17,33 @@ namespace ReshylEditor.GUI
         {
             keyProp = serializedObject.FindProperty("elementKey");
             themedComponent = (ThemedComponent<T>)target;
-            parentTheme = themedComponent.GetComponentInParent<GUITheme>();
+        }
+
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+
+            EditorGUI.BeginChangeCheck();
+
+            DrawKeyPopup(out var palette);
+            serializedObject.ApplyModifiedProperties();
+
+            if (EditorGUI.EndChangeCheck())
+                themedComponent.UpdateElement(palette);
         }
 
         protected virtual T GetPalette()
         {
-            if (parentTheme == null)
+            themeController = themedComponent.GetComponentInParent<GUITheme>();
+
+            if (themeController == null)
             {
                 EditorGUILayout.HelpBox("This component is not being managed by a GUI Theme. " +
                     "Must have a GUI Theme component on one of the parents of this GameObject.", MessageType.Error);
                 return null;
             }
 
-            var currentTheme = parentTheme.GetCurrentTheme();
+            var currentTheme = themeController.GetCurrentTheme();
 
             if (currentTheme == null)
             {
@@ -54,8 +69,19 @@ namespace ReshylEditor.GUI
             return palette;
         }
 
-        protected virtual void DrawKeyPopup(T palette)
+        protected virtual void DrawKeyPopup(out T palette)
         {
+            palette = GetPalette();
+
+            if (palette == null)
+            {
+                UnityEngine.GUI.enabled = false;
+                EditorGUILayout.PropertyField(keyProp, new GUIContent(KeyLabel));
+                UnityEngine.GUI.enabled = true;
+
+                return;
+            }
+
             var options = palette.Definition.Keys;
 
             if (keyProp.stringValue == string.Empty)

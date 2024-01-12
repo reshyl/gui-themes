@@ -6,21 +6,51 @@ namespace Reshyl.GUI
     {
         [SerializeField] protected string elementKey;
 
-        protected GUITheme parentTheme;
+        protected GUITheme themeController;
 
         protected virtual void OnEnable()
         {
-            if (parentTheme == null)
-                parentTheme = GetComponentInParent<GUITheme>();
+            themeController = GetComponentInParent<GUITheme>();
 
-            if (parentTheme != null)
-                parentTheme.OnThemeChanged += OnThemeChanged;
+            if (themeController != null)
+            {
+                themeController.OnThemeChanged += OnThemeChanged;
+                OnThemeChanged(null, themeController.GetCurrentTheme());
+            }
         }
 
         protected virtual void OnDisable()
         {
-            if (parentTheme != null)
-                parentTheme.OnThemeChanged -= OnThemeChanged;
+            if (themeController != null)
+                themeController.OnThemeChanged -= OnThemeChanged;
+        }
+
+        //We make sure to update the element if it's been moved from one GUI Theme to another
+        protected virtual void OnTransformParentChanged()
+        {
+            var newController = GetComponentInParent<GUITheme>();
+
+            if (newController == themeController)
+                return;
+
+            if (themeController != null)
+            {
+                themeController.OnThemeChanged -= OnThemeChanged;
+                OnThemeChanged(themeController.GetCurrentTheme(), null);
+            }
+
+            themeController = newController;
+
+            if (themeController != null)
+            {
+                themeController.OnThemeChanged += OnThemeChanged;
+                OnThemeChanged(null, themeController.GetCurrentTheme());
+            }
+        }
+
+        public string GetElementKey()
+        {
+            return elementKey;
         }
 
         protected abstract void OnThemeChanged(Theme previousTheme, Theme newTheme);

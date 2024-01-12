@@ -1,6 +1,5 @@
 ﻿using Reshyl.GUI;
 using UnityEditor;
-using UnityEngine;
 
 namespace ReshylEditor.GUI
 {
@@ -24,18 +23,18 @@ namespace ReshylEditor.GUI
         {
             serializedObject.Update();
 
-            var palette = GetPalette();
+            EditorGUI.BeginChangeCheck();
+
+            DrawKeyPopup(out var palette);
 
             if (palette == null)
             {
-                UnityEngine.GUI.enabled = false;
-                EditorGUILayout.PropertyField(keyProp, new GUIContent(KeyLabel));
-                UnityEngine.GUI.enabled = true;
-
+                if (EditorGUI.EndChangeCheck())
+                    serializedObject.ApplyModifiedProperties();
+                
                 return;
             }
-            
-            DrawKeyPopup(palette);
+
             EditorGUILayout.PropertyField(overrideAlphaProp);
 
             if (overrideAlphaProp.boolValue)
@@ -43,7 +42,8 @@ namespace ReshylEditor.GUI
 
             serializedObject.ApplyModifiedProperties();
 
-            themedComponent.UpdateElement(palette);
+            if (EditorGUI.EndChangeCheck())
+                themedComponent.UpdateElement(palette);
         }
     }
 }
