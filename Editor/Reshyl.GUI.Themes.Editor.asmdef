@@ -1,0 +1,18 @@
+{
+    "name": "Reshyl.GUI.Themes.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:883de9253797594458f893cee1186516"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
