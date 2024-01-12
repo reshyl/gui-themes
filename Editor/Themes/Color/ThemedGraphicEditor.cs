@@ -1,24 +1,21 @@
 ﻿using Reshyl.GUI;
 using UnityEditor;
+using UnityEngine;
 
 namespace ReshylEditor.GUI
 {
     [CustomEditor(typeof(ThemedGraphic))]
-    public class ThemedGraphicEditor : Editor
+    public class ThemedGraphicEditor : ThemedComponentEditorBase<ColorPalette>
     {
-        private ThemedGraphic themedGraphic;
-
-        private SerializedProperty colorPaletteProp;
-        private SerializedProperty colorKeyProp;
         private SerializedProperty overrideAlphaProp;
         private SerializedProperty alphaProp;
 
-        private void OnEnable()
-        {
-            themedGraphic = (ThemedGraphic)target;
+        protected override string KeyLabel => "Color";
 
-            colorPaletteProp = serializedObject.FindProperty("colorPalette");
-            colorKeyProp = serializedObject.FindProperty("colorKey");
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
             overrideAlphaProp = serializedObject.FindProperty("overrideAlpha");
             alphaProp = serializedObject.FindProperty("alpha");
         }
@@ -27,34 +24,26 @@ namespace ReshylEditor.GUI
         {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(colorPaletteProp);
+            var palette = GetPalette();
 
-            if (colorPaletteProp.objectReferenceValue == null)
+            if (palette == null)
             {
-                serializedObject.ApplyModifiedProperties();
+                UnityEngine.GUI.enabled = false;
+                EditorGUILayout.PropertyField(keyProp, new GUIContent(KeyLabel));
+                UnityEngine.GUI.enabled = true;
+
                 return;
             }
-
-            var palette = (ColorPalette)colorPaletteProp.objectReferenceValue;
-            var options = palette.Definition.Keys;
-
-            if (colorKeyProp.stringValue == string.Empty)
-                colorKeyProp.stringValue = options[0];
-            else if (!options.Contains(colorKeyProp.stringValue))
-                colorKeyProp.stringValue = options[0];
-
-            var selectedIndex = options.IndexOf(colorKeyProp.stringValue);
-
-            selectedIndex = EditorGUILayout.Popup("Color", selectedIndex, options.ToArray());
-            colorKeyProp.stringValue = options[selectedIndex];
-
+            
+            DrawKeyPopup(palette);
             EditorGUILayout.PropertyField(overrideAlphaProp);
 
             if (overrideAlphaProp.boolValue)
                 EditorGUILayout.PropertyField(alphaProp);
 
             serializedObject.ApplyModifiedProperties();
-            themedGraphic.UpdateElement();
+
+            themedComponent.UpdateElement(palette);
         }
     }
 }

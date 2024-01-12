@@ -4,12 +4,8 @@ using UnityEngine.UI;
 namespace Reshyl.GUI
 {
     [RequireComponent(typeof(Graphic))]
-    public class ThemedGraphic : MonoBehaviour
+    public class ThemedGraphic : ThemedComponent<ColorPalette>
     {
-        [SerializeField]
-        private ColorPalette colorPalette;
-        [SerializeField]
-        private string colorKey;
         [SerializeField]
         private bool overrideAlpha;
         [SerializeField, Range(0f, 1f)]
@@ -17,12 +13,12 @@ namespace Reshyl.GUI
 
         private Graphic graphic;
 
-        public virtual void UpdateElement()
+        public override void UpdateElement(ColorPalette palette)
         {
             if (graphic == null)
                 graphic = GetComponent<Graphic>();
 
-            if (colorPalette.GetElement(colorKey, out var color))
+            if (palette.GetElement(elementKey, out var color))
             {
                 if (overrideAlpha)
                     color.a = alpha;
@@ -31,7 +27,7 @@ namespace Reshyl.GUI
             }
             else
             {
-                Debug.LogWarning(colorPalette.name + " does not contain a Color with key " + colorKey);
+                Debug.LogWarning(palette.name + " does not contain a Color with key " + elementKey);
             }
         }
     }

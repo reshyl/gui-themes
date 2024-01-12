@@ -1,52 +1,34 @@
 ﻿using Reshyl.GUI;
 using UnityEditor;
+using UnityEngine;
 
 namespace ReshylEditor.GUI
 {
     [CustomEditor(typeof(ThemedImage))]
-    public class ThemedImageEditor : Editor
+    public class ThemedImageEditor : ThemedComponentEditorBase<SpritePalette>
     {
-        private ThemedImage themedImage;
-
-        private SerializedProperty spritePaletteProp;
-        private SerializedProperty spriteKeyProp;
-
-        private void OnEnable()
-        {
-            themedImage = (ThemedImage)target;
-
-            spritePaletteProp = serializedObject.FindProperty("spritePalette");
-            spriteKeyProp = serializedObject.FindProperty("spriteKey");
-        }
+        protected override string KeyLabel => "Sprite";
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(spritePaletteProp);
+            var palette = GetPalette();
 
-            if (spritePaletteProp.objectReferenceValue == null)
+            if (palette == null)
             {
-                serializedObject.ApplyModifiedProperties();
+                UnityEngine.GUI.enabled = false;
+                EditorGUILayout.PropertyField(keyProp, new GUIContent(KeyLabel));
+                UnityEngine.GUI.enabled = true;
+
                 return;
             }
 
-            var palette = (SpritePalette)spritePaletteProp.objectReferenceValue;
-            var options = palette.Definition.Keys;
-
-            if (spriteKeyProp.stringValue == string.Empty)
-                spriteKeyProp.stringValue = options[0];
-            else if (!options.Contains(spriteKeyProp.stringValue))
-                spriteKeyProp.stringValue = options[0];
-
-            var selectedIndex = options.IndexOf(spriteKeyProp.stringValue);
-
-            selectedIndex = EditorGUILayout.Popup("Sprite", selectedIndex, options.ToArray());
-            spriteKeyProp.stringValue = options[selectedIndex];
+            DrawKeyPopup(palette);
 
             serializedObject.ApplyModifiedProperties();
 
-            themedImage.UpdateElement();
+            themedComponent.UpdateElement(palette);
         }
     }
 }

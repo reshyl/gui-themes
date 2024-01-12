@@ -1,52 +1,34 @@
 ﻿using Reshyl.GUI;
 using UnityEditor;
+using UnityEngine;
 
 namespace ReshylEditor.GUI
 {
     [CustomEditor(typeof(ThemedSelectable))]
-    public class ThemedSelectableEditor : Editor
+    public class ThemedSelectableEditor : ThemedComponentEditorBase<SelectablePalette>
     {
-        private ThemedSelectable themedSelectable;
-
-        private SerializedProperty paletteProp;
-        private SerializedProperty keyProp;
-
-        private void OnEnable()
-        {
-            themedSelectable = (ThemedSelectable)target;
-
-            paletteProp = serializedObject.FindProperty("palette");
-            keyProp = serializedObject.FindProperty("selectableKey");
-        }
+        protected override string KeyLabel => "Selectable";
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(paletteProp);
+            var palette = GetPalette();
 
-            if (paletteProp.objectReferenceValue == null)
+            if (palette == null)
             {
-                serializedObject.ApplyModifiedProperties();
+                UnityEngine.GUI.enabled = false;
+                EditorGUILayout.PropertyField(keyProp, new GUIContent(KeyLabel));
+                UnityEngine.GUI.enabled = true;
+
                 return;
             }
 
-            var palette = (SelectablePalette)paletteProp.objectReferenceValue;
-            var options = palette.Definition.Keys;
-
-            if (keyProp.stringValue == string.Empty)
-                keyProp.stringValue = options[0];
-            else if (!options.Contains(keyProp.stringValue))
-                keyProp.stringValue = options[0];
-
-            var selectedIndex = options.IndexOf(keyProp.stringValue);
-
-            selectedIndex = EditorGUILayout.Popup("Selectable", selectedIndex, options.ToArray());
-            keyProp.stringValue = options[selectedIndex];
+            DrawKeyPopup(palette);
 
             serializedObject.ApplyModifiedProperties();
 
-            themedSelectable.UpdateElement();
+            themedComponent.UpdateElement(palette);
         }
     }
 }

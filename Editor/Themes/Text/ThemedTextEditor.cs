@@ -1,23 +1,20 @@
 ﻿using Reshyl.GUI;
 using UnityEditor;
+using UnityEngine;
 
 namespace ReshylEditor.GUI
 {
     [CustomEditor(typeof(ThemedText))]
-    public class ThemedTextEditor : Editor
+    public class ThemedTextEditor : ThemedComponentEditorBase<TextPalette>
     {
-        private ThemedText themedText;
-
-        private SerializedProperty paletteProp;
-        private SerializedProperty keyProp;
         private SerializedProperty ignoreColorProp;
 
-        private void OnEnable()
-        {
-            themedText = (ThemedText)target;
+        protected override string KeyLabel => "Text";
 
-            paletteProp = serializedObject.FindProperty("palette");
-            keyProp = serializedObject.FindProperty("textKey");
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
             ignoreColorProp = serializedObject.FindProperty("ignoreColor");
         }
 
@@ -25,32 +22,23 @@ namespace ReshylEditor.GUI
         {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(paletteProp);
+            var palette = GetPalette();
 
-            if (paletteProp.objectReferenceValue == null)
+            if (palette == null)
             {
-                serializedObject.ApplyModifiedProperties();
+                UnityEngine.GUI.enabled = false;
+                EditorGUILayout.PropertyField(keyProp, new GUIContent(KeyLabel));
+                UnityEngine.GUI.enabled = true;
+
                 return;
             }
 
-            var palette = (TextPalette)paletteProp.objectReferenceValue;
-            var options = palette.Definition.Keys;
-
-            if (keyProp.stringValue == string.Empty)
-                keyProp.stringValue = options[0];
-            else if (!options.Contains(keyProp.stringValue))
-                keyProp.stringValue = options[0];
-
-            var selectedIndex = options.IndexOf(keyProp.stringValue);
-
-            selectedIndex = EditorGUILayout.Popup("Text", selectedIndex, options.ToArray());
-            keyProp.stringValue = options[selectedIndex];
-
+            DrawKeyPopup(palette);
             EditorGUILayout.PropertyField(ignoreColorProp);
 
             serializedObject.ApplyModifiedProperties();
 
-            themedText.UpdateElement();
+            themedComponent.UpdateElement(palette);
         }
     }
 }

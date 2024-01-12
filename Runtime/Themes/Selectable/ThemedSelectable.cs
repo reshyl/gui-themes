@@ -3,21 +3,17 @@ using UnityEngine.UI;
 
 namespace Reshyl.GUI
 {
-    public class ThemedSelectable : MonoBehaviour
+    [RequireComponent(typeof(Selectable))]
+    public class ThemedSelectable : ThemedComponent<SelectablePalette>
     {
-        [SerializeField]
-        private SelectablePalette palette;
-        [SerializeField]
-        private string selectableKey;
-
         private Selectable selectable;
 
-        public virtual void UpdateElement()
+        public override void UpdateElement(SelectablePalette palette)
         {
             if (selectable == null)
                 selectable = GetComponent<Selectable>();
 
-            if (palette.GetElement(selectableKey, out var settings))
+            if (palette.GetElement(elementKey, out var settings))
             {
                 selectable.image.sprite = settings.sprite;
                 selectable.transition = settings.transition;
@@ -37,7 +33,7 @@ namespace Reshyl.GUI
             }
             else
             {
-                Debug.LogWarning(palette.name + " does not contain a Selectable with key " + selectableKey);
+                Debug.LogWarning(palette.name + " does not contain a Selectable with key " + elementKey);
             }
         }
     }

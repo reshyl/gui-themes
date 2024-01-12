@@ -3,24 +3,20 @@ using UnityEngine.UI;
 
 namespace Reshyl.GUI
 {
-    public class ThemedImage : MonoBehaviour
+    [RequireComponent(typeof(Image))]
+    public class ThemedImage : ThemedComponent<SpritePalette>
     {
-        [SerializeField]
-        private SpritePalette spritePalette;
-        [SerializeField]
-        private string spriteKey;
-
         private Image image;
 
-        public virtual void UpdateElement()
+        public override void UpdateElement(SpritePalette palette)
         {
             if (image == null)
                 image = GetComponent<Image>();
 
-            if (spritePalette.GetElement(spriteKey, out var sprite))
+            if (palette.GetElement(elementKey, out var sprite))
                 image.sprite = sprite;
             else
-                Debug.LogWarning(spritePalette.name + " does not contain a Sprite with key " + spriteKey);
+                Debug.LogWarning(palette.name + " does not contain a Sprite with key " + elementKey);
         }
     }
 }

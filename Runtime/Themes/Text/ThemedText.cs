@@ -3,23 +3,20 @@ using UnityEngine;
 
 namespace Reshyl.GUI
 {
-    public class ThemedText : MonoBehaviour
+    [RequireComponent(typeof(TMP_Text))]
+    public class ThemedText : ThemedComponent<TextPalette>
     {
-        [SerializeField]
-        private TextPalette palette;
-        [SerializeField]
-        private string textKey;
         [SerializeField]
         private bool ignoreColor;
 
         private TMP_Text textMesh;
 
-        public virtual void UpdateElement()
+        public override void UpdateElement(TextPalette palette)
         {
             if (textMesh == null)
                 textMesh = GetComponent<TMP_Text>();
 
-            if (palette.GetElement(textKey, out var settings))
+            if (palette.GetElement(elementKey, out var settings))
             {
                 textMesh.font = settings.font;
                 textMesh.fontSharedMaterial = settings.fontMaterial;
@@ -34,7 +31,7 @@ namespace Reshyl.GUI
 
                 if (!ignoreColor)
                     textMesh.color = settings.vertexColor;
-                
+
                 textMesh.enableVertexGradient = settings.colorGradient;
                 textMesh.colorGradientPreset = settings.gradientPreset;
 
@@ -52,7 +49,7 @@ namespace Reshyl.GUI
             }
             else
             {
-                Debug.LogWarning(palette.name + " does not contain a Text with key " + textKey);
+                Debug.LogWarning(palette.name + " does not contain a Text with key " + elementKey);
             }
         }
     }
